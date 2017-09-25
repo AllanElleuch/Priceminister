@@ -4,6 +4,7 @@ import random
 import os
 import scipy.stats
 import numpy
+import matplotlib.pyplot as plt
 
 csv_delimiter = ';'
 
@@ -47,35 +48,74 @@ dataFrameOutputTrain = open_with_pandas_read_csv('challenge_output_data_training
 # dataFrame = open_with_pandas_read_csv2('challenge_output_data_training_file_prediction_of_products_reviews_interests.csv',["review_stars","review_content"])
 # print(dataFrameOutputTrain.values)
 
+# récupérer uniquement les commentaires utiles
 
-x = dataFrameInputTrain['review_stars'].values.tolist()
+
+tableauReviewStars = dataFrameInputTrain['review_stars'].values.tolist()
 y = dataFrameOutputTrain['Target'].values.tolist()
-print(x[0:3])
-print(y[0:3])
-print(numpy.corrcoef([x[0:-1],y[0:-1]])[1,0])
-
-# print(numpy.corrcoef([[0,1],[1,2]]))
-# slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(x,y)
-
-# print_data(dataset);
-# print(dataset);
-# dataset = open_with_pandas_read_csv("input_test.csv")
-# print(open_with_pandas_read_csv("input_test.csv","ID"))
-#Pour une compatiblité entre window et linux on va chercher à calculer le chemin absolu pour accéder des fichiers
 
 
-# frame = pandas.DataFrame.from_csv(os.path.join(__location__, 'input_test.csv'), sep=csv_delimiter, encoding='utf-8-sig')
-# frame2 = pandas.DataFrame.from_csv(os.path.join(__location__, "challenge_output_data_training_file_prediction_of_products_reviews_interests.csv"), sep=csv_delimiter, encoding='utf-8-sig')
-# frame=frame.merge(frame2,left_index =True,right_index =True, how='outer');
-# print(frame)
+# // faire un graph en bar rating/ helpfulness
+# // Faire un graph répartition length review / helpfulness
+# // Faire un random forest sur ces deux paramètre
 
-# print(frame.keys())
-# print(frame2.keys())
-# print(frame["review_content"])
-# print_data(dataset[0])
 
-# for x in range(80001,116395):
-#     print(x)
+# premier graph !
+def graphReviewstars:
+
+    tableauRepartitionReviewStars=[0,0,0,0,0]
+    for i in range(len(tableauReviewStars)):
+        index = tableauReviewStars[i]
+        print(index)
+        tableauRepartitionReviewStars[index-1] +=1
+
+
+    valx=[1,2,3,4,5]
+    names = ['1 stars', '2 stars', '3 stars', '4 stars', '5 stars']
+    values = tableauRepartitionReviewStars
+    fig, ax = plt.subplots()
+    plt.bar(valx, values)
+    ax.set_xticks(valx)
+    ax.set_xticklabels(names)
+    plt.suptitle('product review stars')
+    plt.show()
+#
+#
+
+
+####deuxième graphe en fonction des review length
+
+def graphReviewlength:
+    dataFrameInputReviewContent = open_with_pandas_read_csv2('input_train.csv',["review_content"])
+    TabReviewLength =[]
+
+    for review in dataFrameInputReviewContent.values.tolist():
+        TabReviewLength.append(len(review[0]))
+
+    dicoReviewLength={}
+    for i in TabReviewLength:
+        if not i in dicoReviewLength:
+            dicoReviewLength[i]=1
+        else:
+            dicoReviewLength[i]+=1
+    x,y=[],[]
+
+    for key,value in dicoReviewLength.items():
+        x.append(key)
+        y.append(value)
+    print(dicoReviewLength)
+
+
+    valx=x
+    values = y
+    fig, ax = plt.subplots()
+    plt.bar(valx, values)
+    plt.suptitle('product review length')
+    plt.ylabel('Number of reviews')
+    plt.xlabel('review length')
+
+    plt.show()
+
 
 def save():
     with open(os.path.join(__location__, '/output/algorithm_random.csv'), 'w') as f:
