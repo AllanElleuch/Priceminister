@@ -15,6 +15,7 @@ myTool.addDataframe('challenge_output_data_training_file_prediction_of_products_
 myTool.addDataframe('input_train.csv')
 # myTool.drawGraphReviewstars()
 myTool.drawGraphReviewlength()
+myTool.entrainerModelRandomForest()
 
 
 def open_with_pandas_read_csv(filename):
@@ -98,7 +99,7 @@ def graphReviewlength():
             dicoReviewLength[i]=1
         else:
             dicoReviewLength[i]+=1
-    x,y=[],[]
+    x,y=[],[] #x = valeur len  y = occurence
 
     for key,value in dicoReviewLength.items():
         x.append(key)
@@ -182,8 +183,9 @@ def testLenEfficiency(regr):
         if( resultatGuess[i]==tabOutput[i]):
             res+=1
     print(res/len(tabOutput))
-regr = entrainerModelRandomForest()
-testLenEfficiency(regr)
+# regr = entrainerModelRandomForest()
+# testLenEfficiency(regr)
+
 # FAIRE UN RATIO COM UTILE/Catégorie
 
 # print(tabGuess)

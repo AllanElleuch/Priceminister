@@ -33,68 +33,28 @@ class toolKit:
         plt.suptitle('product review stars')
         plt.show()
 
+# draw a graph with review length as x and helpfulness as y
     def drawGraphReviewlength(self):
-        listInputReviewContent = self.dataFrame[['review_content','Target']]
-
-        self.dataFrame['len'] = [len(x) for x in self.dataFrame['review_content']]
-
-        # print(self.dataFrame)
-        TabReviewLength =self.dataFrame['len'].values.tolist()
-
-        df=self.dataFrame
-        test = np.where(df['Target']==1,df['len'],None)
+        # test = np.where(df['Target']==1,df['len'],None)
         # print(df.loc[df['Target'] == 1]['Target'])
-
-        print(self.dataFrame.groupby(['Target']).len.mean() )
-
-        # colors = {'D':'red', 'E':'blue', 'F':'green', 'G':'black'}
-
-        # drinks.groupby('continent').mean().plot(kind='bar')
-        # grouped = df.groupby('color')
-        # for key, group in grouped:
-        #     group.plot(ax=ax, kind='scatter', x='carat', y='price', label=key, color=colors[key])
-        #
-        # plt.show()
-
-        # dicoReviewLength = {i : 1 if 1==1 else i:1  for i in TabReviewLength  }
-
-        # transforme un tableau en un tuple valeur : nombre d'occurence
-        dicoReviewLength={}
-        for i in TabReviewLength:
-            dicoReviewLength[i] =   dicoReviewLength[i]+1 if i in dicoReviewLength else 1
-        x,y = list(dicoReviewLength.keys()),list(dicoReviewLength.values())
-
-        # x,y=[],[]
-        # print(TabReviewLength)
-        # for key,value in dicoReviewLength.items():
-        #     x.append(key)
-        #     y.append(value)
-
-        # print(x[0:10])
-        # dicoReviewLength={}
-        # for i in TabReviewLength:
-        #     if not i in dicoReviewLength:
-        #         dicoReviewLength[i]=1
-        #     else:
-        #         dicoReviewLength[i]+=1
-
-
-
-
-        # print(len(x))
-
-
-        valx=x
-        values = y
-        slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(x,y)
-        # print(r_value)
-        fig, ax = plt.subplots()
-        plt.bar(valx, values)
-        plt.suptitle('product review length')
-        plt.ylabel('Number of reviews')
+        df=self.dataFrame
+        values0, counts0 = np.unique(df.loc[df['Target'] == 0].len.tolist(), return_counts=True)
+        values1, counts1 = np.unique(df.loc[df['Target'] == 1].len.tolist(), return_counts=True)
+        print(self.dataFrame)
+        # plt.plot(values0,counts0,'b',label='Commentaire inutiles')
+        # plt.plot(values1,counts1,'r',label='Commentaire utiles')
+        plt.plot(self.dataFrame.len,self.dataFrame.Target,'ro',label='Commentaire utiles')
+        plt.ylabel('helpfulness')
         plt.xlabel('review length')
+        plt.suptitle('product review length')
 
-        # plt.show()
+        plt.show()
+    def entrainerModelRandomForest(self):
+        regr = RandomForestRegressor(max_depth=2, random_state=0)
+        # b=np.array(tableauInputOutput['len']).reshape((-1,1))
+        # c=np.array(tableauInputOutput['Target']).reshape((-1,1))
+        # regr.fit(, self.dataFrame['Target'])
+        print(self.dataFrame)
 
 csv_delimiter = ';'
 
