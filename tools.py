@@ -295,7 +295,7 @@ class toolKit:
 
     def gridsearch(self,  parameter):
         param_grid = {
-            'n_estimators': [200,300,400]
+            'n_estimators': [200,300,400],
             "min_samples_split" : [2,4], #def 2
             "bootstrap": [True, False], #true
               "min_samples_split": [2, 5,10], # 2
