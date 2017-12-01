@@ -6,6 +6,7 @@ import scipy.stats
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.datasets import make_regression
 
 from tools import toolKit
@@ -21,7 +22,8 @@ myTool = toolKit(randomForest=True);
 
 myTool.addDataframe('challenge_output_data_training_file_prediction_of_products_reviews_interests.csv')
 myTool.addDataframe('input_train.csv')
-
+# myTool.dataFrame = myTool.dataFrame[0:2000]
+# print(myTool.dataFrame)
 # print(myTool.dataFrame)
 #
 # count = 0
@@ -76,15 +78,17 @@ myTool.addDataframe('input_train.csv')
 # parameter=['review_stars','difficultword_content']
 ## TRAINING
 myTool.setFeatures()
-myTool.print_corrcoef()
+# myTool.print_corrcoef()
 myTool.TFIDF()
-
+parameter=['linsear_title','review_stars','difficultword_content']
+# parameter=['review_stars']
+# parameter=[]
 #TESTING
-myTool.gridsearch()
-myTool.crossvalidation()
+# myTool.gridsearch(parameter)
+# myTool.crossvalidation(parameter)
 
 ## OUTPUT
-parameter=['linsear_title','review_stars','difficultword_content']
+
 myTool.entrainerModelRandomForest(parameter)
 myTool.testForChallenge(parameter)
 
