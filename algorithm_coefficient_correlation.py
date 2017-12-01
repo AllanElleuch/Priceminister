@@ -19,9 +19,11 @@ from nltk.tokenize import RegexpTokenizer
 
 myTool = toolKit(randomForest=True);
 
+__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+def path(filename):
+    return  os.path.join(__location__, filename)
 
-myTool.addDataframe('challenge_output_data_training_file_prediction_of_products_reviews_interests.csv')
-myTool.addDataframe('input_train.csv')
+
 # myTool.dataFrame = myTool.dataFrame[0:200]
 # print(myTool.dataFrame)
 # print(myTool.dataFrame)
@@ -76,23 +78,37 @@ myTool.addDataframe('input_train.csv')
     # parameter=['len','cat','review_stars','lenTitle', 'lenPonctuation']
 
 # parameter=['review_stars','difficultword_content']
+#INITIALISATION
+# myTool.addDataframe('challenge_output_data_training_file_prediction_of_products_reviews_interests.csv')
+# myTool.addDataframe('input_train.csv')
+# myTool.setFeatures()
+# print(myTool.dataFrame)
+#
+# myTool.dataFrame.to_csv('./trained_data.csv', encoding='utf-8',index=False)
+
+myTool.addDataframe( (path('trained_data.csv')) ,newFrame=True)
+print(myTool.dataFrame)
 ## TRAINING
 print("START TRAINING SEQUENCE")
 
-myTool.setFeatures()
-# myTool.print_corrcoef()
-# myTool.TFIDF()
-parameter=['linsear_title','review_stars','difficultword_content']
+
+
+
+myTool.print_corrcoef()
+myTool.TFIDF()
+parameter=['tokenized_title','review_stars','difficultword_content','len']
+# parameter=['linsear_title','review_stars','difficultword_content','len']
+# parameter=['linsear_title','review_stars','difficultword_content']
 # parameter=['review_stars']
 # parameter=[]
 #TESTING
 print("START TESTING SEQUENCE")
 
-myTool.gridsearch(parameter)
-# myTool.crossvalidation(parameter)
+# myTool.gridsearch(parameter)
+myTool.crossvalidation(parameter)
 
 ## OUTPUT
-print("START OUTPUT SEQUENCE")
+# print("START OUTPUT SEQUENCE")
 # myTool.entrainerModelRandomForest(parameter)
 # myTool.testForChallenge(parameter)
 

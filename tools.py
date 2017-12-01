@@ -39,7 +39,9 @@ class toolKit:
         self.dataFrame=dataframe
         if(randomForest):
             # self.regr=RandomForestRegressor(n_jobs = -1,random_state =None,n_estimators=50,max_depth= None) #0.602153572172  #sur tout dataset 0.590640688945 87.985s]
-            self.regr=RandomForestClassifier(n_jobs = -1,random_state =None,n_estimators=100,max_depth= None) #0.594581051415  #sur tout dataset  0.59797331163
+            # self.regr=RandomForestClassifier(n_jobs = -1,random_state =None,n_estimators=100,max_depth= None) #0.594581051415  #sur tout dataset  0.59797331163
+            self.regr=RandomForestClassifier(n_jobs = -1,random_state =None,n_estimators=200,max_depth= None ,
+                                             bootstrap = True, max_features= 'sqrt', min_samples_split = 10) #0.594581051415  #sur tout dataset  0.59797331163
             # self.regr=RandomForestClassifier(n_jobs = -1,random_state =None, max_depth= 1,n_estimators=15)
         else:
             self.regr=svm.SVC()
@@ -86,23 +88,23 @@ class toolKit:
     #DO Absolute deviation correlation
 
     def addColLen(self):
-        listLen= self.dataFrame['review_content'].values.tolist()
-        tabcat=[]
+        # listLen= self.dataFrame['review_content'].values.tolist()
+        # tabcat=[]
 
 
-        for review in listLen:
-            reviewSize=len(review)
-            categorie=0
-            if (reviewSize<250):
-                categorie=1
-            if (reviewSize < 1600):
-                categorie=2
-            tabcat.append(categorie)
+        # for review in listLen:
+        #     reviewSize=len(review)
+        #     categorie=0
+        #     if (reviewSize<250):
+        #         categorie=1
+        #     if (reviewSize < 1600):
+        #         categorie=2
+        #     tabcat.append(categorie)
 
-        self.dataFrame['cat']= np.array(tabcat)
+        # self.dataFrame['cat']= np.array(tabcat)
         self.dataFrame['len']= self.dataFrame['review_content'].str.len()
         # self.dataFrame['len']= self.dataFrame['review_title'].str.len()
-        self.dataFrame['lenTitle']= self.dataFrame['review_title'].str.split().str.len()
+        # self.dataFrame['lenTitle']= self.dataFrame['review_title'].str.split().str.len()
 
     def addColLenPonctuation(self):
         count = lambda l1, l2: len(list(filter(lambda c: c in l2, l1)))
@@ -203,9 +205,9 @@ class toolKit:
         # print(data)
 
         ## filename : string. import a csv as dataframe
-    def addDataframe(self, filename, newFrame=False, i = -1):
+    def addDataframe(self, filename, newFrame=False, i = -1,sep=None):
         if(self.dataFrame is None or newFrame == True):
-            self.dataFrame=open_with_pandas_read_csv(filename)
+            self.dataFrame=open_with_pandas_read_csv(filename, sep )
         else:
             self.dataFrame=pandas.merge(self.dataFrame, open_with_pandas_read_csv(filename))
             # self.dataFrame=pandas.concat([self.dataFrame, open_with_pandas_read_csv(filename)], axis=1)
@@ -261,7 +263,10 @@ class toolKit:
         self.add_features_dataframe(fcalculator.features_tokenized_content,'tokenized_content')
         self.add_features_dataframe(fcalculator.features_tokenized_title,'tokenized_title')
         self.add_features_dataframe(fcalculator.features_difficultword_content,'difficultword_content')
-        self.add_features_dataframe(fcalculator.features_linsear_title,'linsear_title')
+        # self.add_features_dataframe(fcalculator.features_tokenized_difficultword_title,'difficultword_content')
+        # self.add_features_dataframe(fcalculator.features_linsear_title,'linsear_title')
+        self.addColLen()
+        # self.addColLenPonctuation()
         return
 
     def crossvalidation(self,  parameter):
@@ -293,12 +298,12 @@ class toolKit:
         # save.write(bestResults+"\n")
         return
 
-    def gridsearch(self,  parameter):
+    def gridsearch(self,  parameter, tfidf=False):
         param_grid = {
             'n_estimators': [200,300,400],
-            "min_samples_split" : [2,4], #def 2
+            "min_samples_split" : [1,2,5], #def 2
             "bootstrap": [True, False], #true
-              "min_samples_split": [2, 5,10], # 2
+              "min_samples_split": [1, 2,5], # 2
                "max_depth": [75, 125,None],
             "max_features": ['auto', 'sqrt', 'log2']
         }
@@ -311,7 +316,19 @@ class toolKit:
                           param_grid=param_grid,
                           scoring=scoring, cv=5, refit='AUC') #, refit='AUC'
 
+        if tfidf:
+
+
+            CV_rfc = GridSearchCV(estimator=self.vectorizer,
+                              param_grid=param_grid,
+                              scoring=scoring, cv=5, refit='AUC') #, refit='AUC'
+
+
         CV_rfc.fit(self.getFeatures(parameter), self.dataFrame['Target'])
+
+
+
+
         results = str(CV_rfc.cv_results_)
         results = "cv_results_ : " + results +"\n"
         bestResults = str(CV_rfc.best_score_ )
@@ -447,8 +464,8 @@ __location__ = os.path.realpath(
     os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
 
-def open_with_pandas_read_csv(filename):
-    pd = pandas.read_csv(os.path.join(__location__, filename), sep=csv_delimiter)
+def open_with_pandas_read_csv(filename,sep =csv_delimiter ):
+    pd = pandas.read_csv(os.path.join(__location__, filename), sep)
     return pd
 
 

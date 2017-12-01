@@ -76,3 +76,14 @@ class FeaturesCalculator():
             return -1
         else:
             return 1
+
+    # PAS FINIS 
+    @classmethod
+    def features_tokenized_difficultword_title(cls, row):
+        data = row['review_title']
+        token = cls.tokenizer.tokenize(data)
+        if(token == None or len(token)==0):
+            return -1
+        else:
+            val = textstat.difficult_words(row['review_title'])
+            return val
