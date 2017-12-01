@@ -22,7 +22,7 @@ myTool = toolKit(randomForest=True);
 
 myTool.addDataframe('challenge_output_data_training_file_prediction_of_products_reviews_interests.csv')
 myTool.addDataframe('input_train.csv')
-# myTool.dataFrame = myTool.dataFrame[0:2000]
+# myTool.dataFrame = myTool.dataFrame[0:200]
 # print(myTool.dataFrame)
 # print(myTool.dataFrame)
 #
@@ -81,20 +81,20 @@ print("START TRAINING SEQUENCE")
 
 myTool.setFeatures()
 # myTool.print_corrcoef()
-myTool.TFIDF()
+# myTool.TFIDF()
 parameter=['linsear_title','review_stars','difficultword_content']
 # parameter=['review_stars']
 # parameter=[]
 #TESTING
 print("START TESTING SEQUENCE")
 
-# myTool.gridsearch(parameter)
+myTool.gridsearch(parameter)
 # myTool.crossvalidation(parameter)
 
 ## OUTPUT
 print("START OUTPUT SEQUENCE")
-myTool.entrainerModelRandomForest(parameter)
-myTool.testForChallenge(parameter)
+# myTool.entrainerModelRandomForest(parameter)
+# myTool.testForChallenge(parameter)
 
 
 

@@ -1,4 +1,4 @@
-Cross validate in 5 k mean 
-mean fit time 0.354957342148
-mean test_f1  0.614758007423
-mean test aur_roc  0.639355778171
+best_params_ : {'n_estimators': 300}
+
+
+best_score_ : 0.573461178279

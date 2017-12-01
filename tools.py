@@ -22,13 +22,24 @@ from features import FeaturesCalculator as fcalculator
 from sklearn.feature_extraction.text import HashingVectorizer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics import roc_auc_score
+from sklearn import metrics
+from sklearn.model_selection import cross_validate
+from sklearn.metrics import make_scorer
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import classification_report
+from sklearn.metrics import f1_score
+from sklearn.model_selection import train_test_split
+from statistics import mean
+from sklearn.model_selection import GridSearchCV
 
 class toolKit:
     def __init__(self, dataframe=None,randomForest=True):
         self.dataFrame=dataframe
         if(randomForest):
-            # self.regr=RandomForestRegressor(n_jobs = -1,random_state =None,n_estimators=50,max_depth= None)
-            self.regr=RandomForestClassifier(n_jobs = -1,random_state =None,n_estimators=100,max_depth= None)
+            # self.regr=RandomForestRegressor(n_jobs = -1,random_state =None,n_estimators=50,max_depth= None) #0.602153572172  #sur tout dataset 0.590640688945 87.985s]
+            self.regr=RandomForestClassifier(n_jobs = -1,random_state =None,n_estimators=100,max_depth= None) #0.594581051415  #sur tout dataset  0.59797331163
             # self.regr=RandomForestClassifier(n_jobs = -1,random_state =None, max_depth= 1,n_estimators=15)
         else:
             self.regr=svm.SVC()
@@ -256,18 +267,9 @@ class toolKit:
     def crossvalidation(self,  parameter):
 
 
-        from sklearn.metrics import roc_auc_score
-        from sklearn import metrics
-        from sklearn.model_selection import cross_validate
-        from sklearn.metrics import make_scorer
-        from sklearn.metrics import accuracy_score
-        from sklearn.metrics import recall_score
-        from sklearn.metrics import classification_report
-        from sklearn.metrics import f1_score
-        from sklearn.model_selection import train_test_split
-        from statistics import mean
-        scoring = {'AUC': 'roc_auc', 'Accuracy': make_scorer(accuracy_score),'Recall': make_scorer(recall_score),'f1': make_scorer(f1_score)}
-        # scoring = {'AUC': 'roc_auc','f1': 'f1', 'Accuracy': 'accuracy','Recall': 'recall'}
+
+        # scoring = {'AUC': 'roc_auc', 'Accuracy': make_scorer(accuracy_score),'Recall': make_scorer(recall_score),'f1': make_scorer(f1_score)}
+        scoring = {'AUC': 'roc_auc'}
         # print(self.getFeatures(parameter))
         # print(self.dataFrame['Target'])
         X = self.getFeatures(parameter)
@@ -283,7 +285,7 @@ class toolKit:
         report+="mean fit time " + str( mean ( scores2['fit_time']))    +"\n"
         # report+="mean test accuracy  " + str( mean ( scores2['test_Accuracy']))   +"\n"
         # report+="mean test_Recall  " + str( mean ( scores2['test_Recall']))   +"\n"
-        report+="mean test_f1  " + str( mean ( scores2['test_f1']))   +"\n"
+        # report+="mean test_f1  " + str( mean ( scores2['test_f1']))   +"\n"
         report+="mean test aur_roc  " + str( mean ( scores2['test_AUC']))  +"\n"
         print(report)
         save =   open(os.path.join(os.path.dirname(__file__), "crossvalidation.txt"), 'w')
@@ -293,19 +295,22 @@ class toolKit:
 
     def gridsearch(self,  parameter):
         param_grid = {
-            'n_estimators': [200,300,400],
+            'n_estimators': [200,300,400]
             "min_samples_split" : [2,4], #def 2
             "bootstrap": [True, False], #true
               "min_samples_split": [2, 5,10], # 2
                "max_depth": [75, 125,None],
             "max_features": ['auto', 'sqrt', 'log2']
         }
-        scoring = {'AUC': 'roc_auc', 'Accuracy': make_scorer(accuracy_score)}
+        # scoring = {'AUC': 'roc_auc', 'Accuracy': make_scorer(accuracy_score)}
+        # scoring = {'AUC': 'roc_auc', 'Accuracy': make_scorer(accuracy_score)}
+        scoring = {'AUC': 'roc_auc'}
 
 
-        CV_rfc = GridSearchCV(estimator=self.vectorizer,
+        CV_rfc = GridSearchCV(estimator=self.regr,
                           param_grid=param_grid,
                           scoring=scoring, cv=5, refit='AUC') #, refit='AUC'
+
         CV_rfc.fit(self.getFeatures(parameter), self.dataFrame['Target'])
         results = str(CV_rfc.cv_results_)
         results = "cv_results_ : " + results +"\n"
