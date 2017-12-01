@@ -28,7 +28,7 @@ class toolKit:
         self.dataFrame=dataframe
         if(randomForest):
             # self.regr=RandomForestRegressor(n_jobs = -1,random_state =None,n_estimators=50,max_depth= None)
-            self.regr=RandomForestClassifier(n_jobs = -1,random_state =None,n_estimators=100,max_depth= 120)
+            self.regr=RandomForestClassifier(n_jobs = -1,random_state =None,n_estimators=100,max_depth= None)
             # self.regr=RandomForestClassifier(n_jobs = -1,random_state =None, max_depth= 1,n_estimators=15)
         else:
             self.regr=svm.SVC()
@@ -43,7 +43,7 @@ class toolKit:
         # ('vect', HashingVectorizer(n_features=3000,ngram_range=(1,5))),
         # ('vect', HashingVectorizer(n_features=1500,ngram_range=(1,2))),
         # ('vect', HashingVectorizer(n_features=200,ngram_range=(1,1))),
-        ('vect', CountVectorizer(analyzer='word',stop_words=frozenset(stopwords.words('french')),ngram_range=(1,2) ,max_features = 500 )),
+        ('vect', CountVectorizer(analyzer='word',stop_words=frozenset(stopwords.words('french')),ngram_range=(1,5) ,max_features = 3000 )),
          # ('vect', CountVectorizer()),
         ('tfidf', TfidfTransformer( use_idf=True, smooth_idf=False, sublinear_tf=True)),
         # ('clf',TfidfVectorizer(sublinear_tf=True, max_df=0.8,min_df=1,stop_words='english',max_features=500))

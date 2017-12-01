@@ -77,6 +77,8 @@ myTool.addDataframe('input_train.csv')
 
 # parameter=['review_stars','difficultword_content']
 ## TRAINING
+print("START TRAINING SEQUENCE")
+
 myTool.setFeatures()
 # myTool.print_corrcoef()
 myTool.TFIDF()
@@ -84,11 +86,13 @@ parameter=['linsear_title','review_stars','difficultword_content']
 # parameter=['review_stars']
 # parameter=[]
 #TESTING
+print("START TESTING SEQUENCE")
+
 # myTool.gridsearch(parameter)
 # myTool.crossvalidation(parameter)
 
 ## OUTPUT
-
+print("START OUTPUT SEQUENCE")
 myTool.entrainerModelRandomForest(parameter)
 myTool.testForChallenge(parameter)
 
