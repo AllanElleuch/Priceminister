@@ -79,14 +79,13 @@ def path(filename):
 
 # parameter=['review_stars','difficultword_content']
 #INITIALISATION
-# myTool.addDataframe('challenge_output_data_training_file_prediction_of_products_reviews_interests.csv')
-# myTool.addDataframe('input_train.csv')
-# myTool.setFeatures()
-# print(myTool.dataFrame)
-#
-# myTool.dataFrame.to_csv('./trained_data.csv', encoding='utf-8',index=False)
+myTool.addDataframe('challenge_output_data_training_file_prediction_of_products_reviews_interests.csv')
+myTool.addDataframe('input_train.csv')
+myTool.setFeatures()
+print(myTool.dataFrame)
+myTool.dataFrame.to_csv('./trained_data.csv', encoding='utf-8',index=False)
 
-myTool.addDataframe( (path('trained_data.csv')) ,newFrame=True)
+# myTool.addDataframe( (path('trained_data.csv')) ,newFrame=True)
 print(myTool.dataFrame)
 ## TRAINING
 print("START TRAINING SEQUENCE")
