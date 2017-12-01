@@ -43,7 +43,7 @@ class toolKit:
         # ('vect', HashingVectorizer(n_features=3000,ngram_range=(1,5))),
         # ('vect', HashingVectorizer(n_features=1500,ngram_range=(1,2))),
         # ('vect', HashingVectorizer(n_features=200,ngram_range=(1,1))),
-        ('vect', CountVectorizer(analyzer='word',stop_words=frozenset(stopwords.words('french')),ngram_range=(1,5) ,max_features = 3000 )),
+        ('vect', CountVectorizer(analyzer='word',stop_words=frozenset(stopwords.words('french')),ngram_range=(1,3) ,max_features = 3000 )),
          # ('vect', CountVectorizer()),
         ('tfidf', TfidfTransformer( use_idf=True, smooth_idf=False, sublinear_tf=True)),
         # ('clf',TfidfVectorizer(sublinear_tf=True, max_df=0.8,min_df=1,stop_words='english',max_features=500))
