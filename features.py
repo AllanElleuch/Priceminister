@@ -77,7 +77,7 @@ class FeaturesCalculator():
         else:
             return 1
 
-    # PAS FINIS 
+    # PAS FINIS
     @classmethod
     def features_tokenized_difficultword_title(cls, row):
         data = row['review_title']

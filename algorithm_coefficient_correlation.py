@@ -4,6 +4,7 @@ import random
 import os
 import scipy.stats
 import numpy as np
+import scipy.io as sio
 # import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import RandomForestClassifier
@@ -79,23 +80,32 @@ def path(filename):
 
 # parameter=['review_stars','difficultword_content']
 #INITIALISATION
-myTool.addDataframe('challenge_output_data_training_file_prediction_of_products_reviews_interests.csv')
-myTool.addDataframe('input_train.csv')
-myTool.setFeatures()
-print(myTool.dataFrame)
-myTool.dataFrame.to_csv('./trained_data.csv', encoding='utf-8',index=False)
+loadFeaturesFromFile = False
 
-# myTool.addDataframe( (path('trained_data.csv')) ,newFrame=True)
-print(myTool.dataFrame)
+if loadFeaturesFromFile:
+    myTool.addDataframe( (path('trained_data.csv')) ,newFrame=True)
+    myTool.tfidf_matrix = sio.loadmat('trained_tfidf_data.csv.mat')['coomatrix']
+    # pandas.read_csv(path('trained_tfidf_data.csv'))
+
+else:
+    myTool.addDataframe('challenge_output_data_training_file_prediction_of_products_reviews_interests.csv')
+    myTool.addDataframe('input_train.csv')
+    myTool.setFeatures()
+    print(myTool.dataFrame)
+    myTool.dataFrame.to_csv('./trained_data.csv', encoding='utf-8',index=False)
+
+
+    myTool.TFIDF()
+    # myTool.tfidf_matrix.to_csv('trained_tfidf_data.csv', encoding='utf-8',index=False)
+    # np.savetxt(path('trained_tfidf_data.csv'),myTool.tfidf_matrix.todense())
+    sio.savemat(path('trained_tfidf_data'), {'coomatrix':myTool.tfidf_matrix})
+
 ## TRAINING
 print("START TRAINING SEQUENCE")
 
-
-
-
 myTool.print_corrcoef()
-myTool.TFIDF()
-parameter=['tokenized_title','review_stars','difficultword_content','len']
+# parameter=[]
+parameter=['linsear_title','review_stars','difficultword_content','len']
 # parameter=['linsear_title','review_stars','difficultword_content','len']
 # parameter=['linsear_title','review_stars','difficultword_content']
 # parameter=['review_stars']
@@ -104,12 +114,12 @@ parameter=['tokenized_title','review_stars','difficultword_content','len']
 print("START TESTING SEQUENCE")
 
 # myTool.gridsearch(parameter)
-myTool.crossvalidation(parameter)
+# myTool.crossvalidation(parameter)
 
 ## OUTPUT
-# print("START OUTPUT SEQUENCE")
-# myTool.entrainerModelRandomForest(parameter)
-# myTool.testForChallenge(parameter)
+print("START OUTPUT SEQUENCE")
+myTool.entrainerModelRandomForest(parameter)
+myTool.testForChallenge(parameter)
 
 
 

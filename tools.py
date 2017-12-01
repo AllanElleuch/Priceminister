@@ -125,7 +125,7 @@ class toolKit:
 
 
 
-    def TFIDF(self,train=True):
+    def TFIDF(self,train=True , fromFile=False):
 
         # data = self.dataFrame['review_title']
         # print(self.dataFrame)
@@ -150,11 +150,14 @@ class toolKit:
         # self.tfidf_matrix=X_train_tfidf
         # self.dataFrame['tfidf']=X_train_tfidf
         tfidf_matrix = None
+
         if train:
             tfidf_matrix = self.vectorizer.fit_transform(data)
         else :
             tfidf_matrix = self.vectorizer.transform(data)
+
         self.tfidf_matrix = tfidf_matrix
+
 
     # def train_tfidf(self,doc,transformOnly=False):
     #
@@ -264,12 +267,12 @@ class toolKit:
         self.add_features_dataframe(fcalculator.features_tokenized_title,'tokenized_title')
         self.add_features_dataframe(fcalculator.features_difficultword_content,'difficultword_content')
         # self.add_features_dataframe(fcalculator.features_tokenized_difficultword_title,'difficultword_content')
-        # self.add_features_dataframe(fcalculator.features_linsear_title,'linsear_title')
+        self.add_features_dataframe(fcalculator.features_linsear_title,'linsear_title')
         self.addColLen()
         # self.addColLenPonctuation()
         return
 
-    def crossvalidation(self,  parameter):
+    def crossvalidation(self,  parameter, TFIDF = False):
 
 
 
@@ -282,7 +285,14 @@ class toolKit:
 
             # print(X.dtype())
         # print(Y.dtype())
-        scores2 = cross_validate(self.regr ,X=X ,y=Y,cv=5,scoring=scoring) # return_train_score=False,
+        clf = None
+        # if TFIDF:
+        #     scoring = {'AUC': 'roc_auc'}
+        #     clf = self.regr
+        # else:
+        clf = self.regr
+
+        scores2 = cross_validate(clf ,X=X ,y=Y,cv=5,scoring=scoring) # return_train_score=False,
         print(scores2)
         report = ""
 
@@ -406,8 +416,11 @@ class toolKit:
         new_column = self.dataFrame[parameter]
 
         if(tfidf_matrix is not None):
-            final = scipy.sparse.hstack((new_column , tfidf_matrix))
-            return final
+            if len(parameter) != 0:
+                final = scipy.sparse.hstack((new_column , tfidf_matrix))
+                return final
+            else:
+                return tfidf_matrix
         else:
             return new_column
 
@@ -462,6 +475,8 @@ csv_delimiter = ';'
 
 __location__ = os.path.realpath(
     os.path.join(os.getcwd(), os.path.dirname(__file__)))
+def path(filename):
+    return  os.path.join(__location__, filename)
 
 
 def open_with_pandas_read_csv(filename,sep =csv_delimiter ):
