@@ -1,7 +1,14 @@
 from nltk.corpus import sentiwordnet as swn
 import nltk
 nltk.download('wordnet')
-# python -m nltk.downloader sentiwordnet
+# python -m nltk.downloader sentiwordnet nltk.download('punkt')
+# python -m nltk.downloader  nltk.download('punkt')
+# python -m nltk.downloader  nltk.download('punkt')
+
+# python -m nltk.downloader  punkt
+# python -m nltk.downloader  averaged_perceptron_tagger
+# python -m nltk.downloader  sentiwordnet
+
 # breakdown = swn.senti_synset('genial.a.01')
 # print(breakdown)
 # breakdown.pos_score()
@@ -16,7 +23,7 @@ __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file
 def path(filename):
     return  os.path.join(__location__, filename)
 
-pd = pandas.read_csv(path('trained_data.csv'))[0:5]
+pd = pandas.read_csv(path('trained_data.csv'))
 # pd = pandas.read_csv(path('trained_data.csv'))[0:1]
 sentences = pd['review_content']
 tagMap = {
