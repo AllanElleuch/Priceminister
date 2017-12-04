@@ -80,7 +80,7 @@ def path(filename):
 
 # parameter=['review_stars','difficultword_content']
 #INITIALISATION
-loadFeaturesFromFile = False
+loadFeaturesFromFile = True
 
 if loadFeaturesFromFile:
     myTool.addDataframe( (path('trained_data.csv')) ,newFrame=True)
@@ -96,8 +96,6 @@ else:
 
 
     myTool.TFIDF()
-    # myTool.tfidf_matrix.to_csv('trained_tfidf_data.csv', encoding='utf-8',index=False)
-    # np.savetxt(path('trained_tfidf_data.csv'),myTool.tfidf_matrix.todense())
     sio.savemat(path('trained_tfidf_data'), {'coomatrix':myTool.tfidf_matrix})
 
 ## TRAINING
