@@ -1,6 +1,6 @@
 from nltk.corpus import sentiwordnet as swn
 import nltk
-# nltk.download('wordnet')
+nltk.download('wordnet')
 # python -m nltk.downloader sentiwordnet
 # breakdown = swn.senti_synset('genial.a.01')
 # print(breakdown)
@@ -16,7 +16,7 @@ __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file
 def path(filename):
     return  os.path.join(__location__, filename)
 
-pd = pandas.read_csv(path('trained_data.csv'))
+pd = pandas.read_csv(path('trained_data.csv'))[0:5]
 # pd = pandas.read_csv(path('trained_data.csv'))[0:1]
 sentences = pd['review_content']
 tagMap = {
@@ -171,7 +171,7 @@ tabEnglish=[]
 i=0
 for item in translations:
     print("NUMERO : " + str(i))
-    i++
+    i+=1
     sentence = item.text
     tabEnglish.append(sentence)
     print(sentence)
