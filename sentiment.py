@@ -25,7 +25,19 @@ def path(filename):
 
 pd = pandas.read_csv(path('trained_data.csv'))
 # pd = pandas.read_csv(path('trained_data.csv'))[0:1]
+
+def review_Pruning(data):
+    # data = row['review_content']
+    if(data == None ):
+        return ""
+    else:
+        return data
+
+# data = pd.apply (lambda row: lambdaFunction(row),axis=1)
+pd['review_content'] = pd['review_content'].map(review_Pruning)
+
 sentences = pd['review_content']
+
 tagMap = {
 'ADJ' : 's', # adjective - ADJECTIVE
 'NN':'n',
