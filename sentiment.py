@@ -134,7 +134,7 @@ def translateDataframeToFile(doc):
 
     #TR
     # pd.to_csv('./eng_data_testing.csv', encoding='utf-8',index=False)
-    pd.to_csv('./eng_data_training.csv', encoding='utf-8',index=False)
+    pd.to_csv('./eng_data_testing.csv', encoding='utf-8',index=False)
 
 # translateDataframeToFile(doc) # pour traduire
 
@@ -303,7 +303,7 @@ listneg = pandas.Series(tabNeg)
 pd['listpos'] =listpos.values
 pd['listneg'] =listneg.values
 print(pd)
-pd.to_csv('./eng_data_training_w_score.csv', encoding='utf-8',index=False)
+pd.to_csv('./eng_data_testing_w_score.csv', encoding='utf-8',index=False)
 print()
 
                 # breakdown.pos_score()
