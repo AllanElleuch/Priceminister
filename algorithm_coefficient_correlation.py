@@ -99,6 +99,7 @@ else:
 
     myTool.TFIDF()
     sio.savemat(path('trained_tfidf_data'), {'coomatrix':myTool.tfidf_matrix})
+print("LOADING FINIT")
 
 ## TRAINING
 print("START TRAINING SEQUENCE")
