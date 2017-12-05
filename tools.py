@@ -356,7 +356,7 @@ class toolKit:
 
     def print_corrcoef(self,colTarget=None):
         columns = self.dataFrame.columns.values
-        forbiddenColumn = ['Target','review_content','review_title','product']
+        forbiddenColumn = ['Target','review_content','review_title','product','english']
         print(columns)
         if not colTarget:
             for col in columns:
@@ -431,10 +431,12 @@ class toolKit:
         # self.TFIDF()
     # Do the csv to upload on the challenge website
     def testForChallenge(self,parameter):
-        self.addDataframe('input_test.csv',newFrame=True)
+        self.addDataframe('eng_data_training_w_score.csv',newFrame=True)
+        # self.addDataframe('input_test.csv',newFrame=True)
         self.setFeatures()
                 # self.addColLen()
                 # self.addColLenPonctuation()
+        # path = os.path.join(__location__, './output/output_for_challenge.csv')
         path = os.path.join(__location__, './output/output_for_challenge.csv')
         if(self.tfidf_matrix is not None):
             self.TFIDF(train=False)

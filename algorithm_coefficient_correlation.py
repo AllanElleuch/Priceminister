@@ -83,7 +83,7 @@ def path(filename):
 loadFeaturesFromFile = True
 
 if loadFeaturesFromFile:
-    myTool.addDataframe( (path('trained_data.csv')) ,newFrame=True)
+    myTool.addDataframe( (path('eng_data_training_w_score.csv')) ,newFrame=True)
     myTool.tfidf_matrix = sio.loadmat('trained_tfidf_data.csv.mat')['coomatrix']
     # pandas.read_csv(path('trained_tfidf_data.csv'))
 
@@ -103,7 +103,7 @@ print("START TRAINING SEQUENCE")
 
 myTool.print_corrcoef()
 # parameter=[]
-parameter=['linsear_title','review_stars','difficultword_content','len']
+parameter=['linsear_title','review_stars','difficultword_content','len','listpos','listneg']
 # parameter=['linsear_title','review_stars','difficultword_content','len']
 # parameter=['linsear_title','review_stars','difficultword_content']
 # parameter=['review_stars']
@@ -112,7 +112,7 @@ parameter=['linsear_title','review_stars','difficultword_content','len']
 print("START TESTING SEQUENCE")
 
 # myTool.gridsearch(parameter)
-# myTool.crossvalidation(parameter)
+myTool.crossvalidation(parameter)
 
 ## OUTPUT
 print("START OUTPUT SEQUENCE")
