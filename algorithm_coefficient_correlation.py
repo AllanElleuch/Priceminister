@@ -107,7 +107,7 @@ print("START TRAINING SEQUENCE")
 myTool.print_corrcoef()
 # parameter=[]
 parameter=['difficultword_content','len','listpos','listneg']
-parameter=[]
+# parameter=[]
 # parameter=['linsear_title','review_stars','difficultword_content','len','listpos','listneg']
 # parameter=['difficultword_content','len','listpos','listneg']
 # parameter=['linsear_title','review_stars','difficultword_content','len']
@@ -118,7 +118,7 @@ parameter=[]
 print("START TESTING SEQUENCE")
 
 # myTool.gridsearch(parameter)
-myTool.crossvalidation(parameter)
+# myTool.crossvalidation(parameter)
 # Cross validate in 5 k mean
 # mean fit time 178.32037611
 # mean test aur_roc  0.724148436115 TOUT param util
@@ -131,8 +131,8 @@ myTool.crossvalidation(parameter)
 
 ## OUTPUT
 print("START OUTPUT SEQUENCE")
-# myTool.entrainerModelRandomForest(parameter)
-# myTool.testForChallenge(parameter,sep=',')
+myTool.entrainerModelRandomForest(parameter)
+myTool.testForChallenge(parameter,sep=',')
 #
 
 
