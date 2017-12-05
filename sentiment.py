@@ -20,8 +20,9 @@ import numpy as np
 import pandas
 import os
 __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+
 def path(filename):
-    return  os.path.join(__location__, filename)
+    return  os.path.join(os.path.dirname(__file__), filename)
 
 pd = pandas.read_csv(path('input_test.csv'))
 # pd = pandas.read_csv(path('trained_data.csv'))
