@@ -24,8 +24,9 @@ __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file
 def path(filename):
     return  os.path.join(os.path.dirname(__file__), filename)
 
-pd = pandas.read_csv(path('input_test.csv'),sep=';')
-# pd = pandas.read_csv(path('trained_data.csv'))
+#TR
+# pd = pandas.read_csv(path('input_test.csv'),sep=';')
+pd = pandas.read_csv(path('eng_data_training.csv'))
 # pd = pandas.read_csv(path('trained_data.csv'))[0:1]
 
 def review_Pruning(data):
@@ -126,15 +127,18 @@ def translateDataframeToFile(doc):
             translated.append(traduit)
         except Exception as e:
             translated.append("")
+            print(e)
 
     english = pandas.Series(translated)
     pd['english'] =english.values
-    pd.to_csv('./eng_data_testing.csv', encoding='utf-8',index=False)
-    # pd.to_csv('./eng_data_training.csv', encoding='utf-8',index=False)
 
-translateDataframeToFile(doc)
+    #TR
+    # pd.to_csv('./eng_data_testing.csv', encoding='utf-8',index=False)
+    pd.to_csv('./eng_data_training.csv', encoding='utf-8',index=False)
 
-raise
+# translateDataframeToFile(doc) # pour traduire
+
+
 
 print('Ask google to translate')
 print('Translation finnished')
@@ -218,20 +222,25 @@ class LemmatizationWithPOSTagger(object):
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet
 from nltk.corpus import stopwords
+import math
 import string
 from nltk import word_tokenize
 print("Start positive negative process")
 tab = []
 tabPos = []
 tabNeg=[]
-tabEnglish=[]
+# tabEnglish=[]
+
 i=0
-for item in translations:
+for sentence in pd['english']:
     print("NUMERO : " + str(i))
     i+=1
-    sentence = item.text
-    tabEnglish.append(sentence)
-    print(sentence)
+    # sentence = item.text
+    # tabEnglish.append(sentence)
+    try:
+        print(sentence)
+    except Exception as e:
+        print("PRINTING WORD ERROR :" + str(e))
     # lemmatizer = WordNetLemmat izer()
     # splitter = Splitter()
     # lemmatization_using_pos_tagger = LemmatizationWithPOSTagger()
@@ -243,55 +252,58 @@ for item in translations:
     # # #step 2 lemmatization using pos tagger
     # lemma_pos_token = lemmatization_using_pos_tagger.pos_tag(tokens)
     # print(lemma_pos_token)
-    from nltk.stem.porter import PorterStemmer
-    from nltk.stem.lancaster import LancasterStemmer
-    from nltk.stem import WordNetLemmatizer
-    porter_stemmer = PorterStemmer()
+    if not pandas.isnull(sentence):
 
-    wordnet_lemmatizer = WordNetLemmatizer()
-    stop = stopwords.words('english') + list(string.punctuation)
-    token = [i for i in word_tokenize(sentence) if i.lower() not in stop ]
-    token = [wordnet_lemmatizer.lemmatize(i) for i in word_tokenize(sentence) if i.lower() not in stop ]
-    # token = [ porter_stemmer.stem(i) for i in sentence]
+        from nltk.stem.porter import PorterStemmer
+        from nltk.stem.lancaster import LancasterStemmer
+        from nltk.stem import WordNetLemmatizer
+        porter_stemmer = PorterStemmer()
 
-    # token = [i for i in word_tokenize(sentence.lower()) if i not in stop ]
+        wordnet_lemmatizer = WordNetLemmatizer()
+        stop = stopwords.words('english') + list(string.punctuation)
+        token = [i for i in word_tokenize(sentence) if i.lower() not in stop ]
+        token = [wordnet_lemmatizer.lemmatize(i) for i in word_tokenize(sentence) if i.lower() not in stop ]
+        # token = [ porter_stemmer.stem(i) for i in sentence]
 
-    # print("stem : ")
-    # print(token)
-    tagged = nltk.pos_tag(token)
-    # print(tagged)
-    tagged = [(i,penn_to_wn(i[1])) for i in tagged if penn_to_wn(i[1]) is not None  ]
+        # token = [i for i in word_tokenize(sentence.lower()) if i not in stop ]
 
-    # print(token)
-    # print(tagged)
-    # print(tagged)
-    breakdown = swn.senti_synset('superb.a.01')
-    # print(breakdown)
-    pos = 0
-    neg = 0
-    for (word,tag),wordnetTag in tagged:
-        try:
-            breakdown = swn.senti_synset(word+'.'+wordnetTag+'.01')
-            # print(breakdown)
-            pos +=breakdown.pos_score()
-            neg += breakdown.neg_score()
-        except Exception as e:
-            print("ERROR :" + word)
-    # tab.append((pos,neg))
-    tabPos.append(pos)
-    tabNeg.append(neg)
+        # print("stem : ")
+        # print(token)
+        tagged = nltk.pos_tag(token)
+        # print(tagged)
+        tagged = [(i,penn_to_wn(i[1])) for i in tagged if penn_to_wn(i[1]) is not None  ]
 
-
+        # print(token)
+        # print(tagged)
+        # print(tagged)
+        breakdown = swn.senti_synset('superb.a.01')
+        # print(breakdown)
+        pos = 0
+        neg = 0
+        for (word,tag),wordnetTag in tagged:
+            try:
+                breakdown = swn.senti_synset(word+'.'+wordnetTag+'.01')
+                # print(breakdown)
+                pos +=breakdown.pos_score()
+                neg += breakdown.neg_score()
+            except Exception as e:
+                print("ERROR :" + str(e))
+        # tab.append((pos,neg))
+        tabPos.append(pos)
+        tabNeg.append(neg)
+    else:
+        tabPos.append(0)
+        tabNeg.append(0)
 
 
 listpos = pandas.Series(tabPos)
 listneg = pandas.Series(tabNeg)
-english = pandas.Series(tabEnglish)
-pd['english'] =english.values
+# english = pandas.Series(tabEnglish)
+# pd['english'] =english.values
 pd['listpos'] =listpos.values
 pd['listneg'] =listneg.values
 print(pd)
-pd.to_csv('./eng_data_training.csv', encoding='utf-8',index=False)
+pd.to_csv('./eng_data_training_w_score.csv', encoding='utf-8',index=False)
 print()
 
                 # breakdown.pos_score()
