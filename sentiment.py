@@ -24,7 +24,7 @@ __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file
 def path(filename):
     return  os.path.join(os.path.dirname(__file__), filename)
 
-pd = pandas.read_csv(path('input_test.csv'))
+pd = pandas.read_csv(path('input_test.csv'),sep=';')
 # pd = pandas.read_csv(path('trained_data.csv'))
 # pd = pandas.read_csv(path('trained_data.csv'))[0:1]
 
