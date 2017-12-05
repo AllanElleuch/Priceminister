@@ -23,21 +23,28 @@ __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file
 def path(filename):
     return  os.path.join(__location__, filename)
 
-pd = pandas.read_csv(path('trained_data.csv'))
+pd = pandas.read_csv(path('input_test.csv'))
+# pd = pandas.read_csv(path('trained_data.csv'))
 # pd = pandas.read_csv(path('trained_data.csv'))[0:1]
 
 def review_Pruning(data):
     # data = row['review_content']
-    if(data == None ):
+    if(data == None or len(data)<=1):
         return ""
     else:
         return data
 
 # data = pd.apply (lambda row: lambdaFunction(row),axis=1)
-pd['review_content'] = pd['review_content'].map(review_Pruning)
+print('Document prunning process')
+
+# pd['review_content'] = pd['review_content'].map(review_Pruning)
+# print(pd['review_content'])
 
 sentences = pd['review_content']
 
+# for ligne in pd['review_content']:
+#     if len(ligne) <= 1 or ligne == None:
+#         print("ligne : " + ligne)
 tagMap = {
 'ADJ' : 's', # adjective - ADJECTIVE
 'NN':'n',
@@ -97,9 +104,39 @@ translator = Translator(service_urls=[
       'translate.google.ca','translate.google.com'
 
     ])
-#
+
+def translateOneText(texte):
+    translations = translator.translate(texte, dest='en')
+    return translations.text
+
+
+# translations =translator.translate(doc, dest='en')
+
+translated=[]
 doc = list(sentences.values)
-translations =translator.translate(doc, dest='en')
+
+def translateDataframeToFile(doc):
+    i=0
+    for texte in doc:
+        i+=1
+        print("Texte : " + str(i))
+        try:
+            traduit = translateOneText(texte)
+            translated.append(traduit)
+        except Exception as e:
+            translated.append("")
+
+    english = pandas.Series(translated)
+    pd['english'] =english.values
+    pd.to_csv('./eng_data_testing.csv', encoding='utf-8',index=False)
+    # pd.to_csv('./eng_data_training.csv', encoding='utf-8',index=False)
+
+translateDataframeToFile(doc)
+
+raise
+
+print('Ask google to translate')
+print('Translation finnished')
 
 # translations = ['It would rather be a movie very well if they did not engage Richard Dreyfus. The young and plausible Liv Taylor and John Lithgow are superb but the pompous Richard Dreyfus ruins a lot. Pity']
 
@@ -182,7 +219,7 @@ from nltk.corpus import wordnet
 from nltk.corpus import stopwords
 import string
 from nltk import word_tokenize
-
+print("Start positive negative process")
 tab = []
 tabPos = []
 tabNeg=[]
