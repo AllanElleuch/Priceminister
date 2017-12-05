@@ -112,7 +112,7 @@ parameter=['linsear_title','review_stars','difficultword_content','len','listpos
 print("START TESTING SEQUENCE")
 
 # myTool.gridsearch(parameter)
-myTool.crossvalidation(parameter)
+# myTool.crossvalidation(parameter)
 
 ## OUTPUT
 print("START OUTPUT SEQUENCE")
