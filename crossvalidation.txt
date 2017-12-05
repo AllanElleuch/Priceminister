@@ -1,3 +1,3 @@
 Cross validate in 5 k mean 
-mean fit time 10.0277050495
-mean test aur_roc  0.618211227751
+mean fit time 199.683798361
+mean test aur_roc  0.72223411114
