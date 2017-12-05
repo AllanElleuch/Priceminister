@@ -84,7 +84,7 @@ loadFeaturesFromFile = True
 
 if loadFeaturesFromFile:
     myTool.addDataframe( (path('eng_data_training_w_score.csv')) ,newFrame=True,sep=',')
-    myTool.tfidf_matrix = sio.loadmat('trained_tfidf_data.csv.mat')['coomatrix']
+    myTool.tfidf_matrix = sio.loadmat('trained_tfidf_data.mat')['coomatrix']
     # pandas.read_csv(path('trained_tfidf_data.csv'))
     # myTool.TFIDF()
     # sio.savemat(path('trained_tfidf_data'), {'coomatrix':myTool.tfidf_matrix})
