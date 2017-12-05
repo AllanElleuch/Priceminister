@@ -106,7 +106,8 @@ print("START TRAINING SEQUENCE")
 
 myTool.print_corrcoef()
 # parameter=[]
-parameter=['linsear_title','review_stars','difficultword_content','len','listpos','listneg']
+parameter=['difficultword_content','len','listpos','listneg']
+# parameter=['linsear_title','review_stars','difficultword_content','len','listpos','listneg']
 # parameter=['difficultword_content','len','listpos','listneg']
 # parameter=['linsear_title','review_stars','difficultword_content','len']
 # parameter=['linsear_title','review_stars','difficultword_content']
