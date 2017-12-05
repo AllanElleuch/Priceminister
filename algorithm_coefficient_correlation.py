@@ -84,10 +84,10 @@ loadFeaturesFromFile = True
 
 if loadFeaturesFromFile:
     myTool.addDataframe( (path('eng_data_training_w_score.csv')) ,newFrame=True,sep=',')
-    # myTool.tfidf_matrix = sio.loadmat('trained_tfidf_data.mat')['coomatrix']
+    myTool.tfidf_matrix = sio.loadmat('trained_tfidf_data.mat')['coomatrix']
     # pandas.read_csv(path('trained_tfidf_data.csv'))
-    myTool.TFIDF()
-    sio.savemat(path('trained_tfidf_data'), {'coomatrix':myTool.tfidf_matrix})
+    # myTool.TFIDF()
+    # sio.savemat(path('trained_tfidf_data'), {'coomatrix':myTool.tfidf_matrix})
 
 else:
     myTool.addDataframe('challenge_output_data_training_file_prediction_of_products_reviews_interests.csv')
@@ -117,7 +117,7 @@ parameter=['difficultword_content','len','listpos','listneg']
 print("START TESTING SEQUENCE")
 
 # myTool.gridsearch(parameter)
-# myTool.crossvalidation(parameter)
+myTool.crossvalidation(parameter)
 # Cross validate in 5 k mean
 # mean fit time 178.32037611
 # mean test aur_roc  0.724148436115 TOUT param util
@@ -130,9 +130,9 @@ print("START TESTING SEQUENCE")
 
 ## OUTPUT
 print("START OUTPUT SEQUENCE")
-myTool.entrainerModelRandomForest(parameter)
-myTool.testForChallenge(parameter,sep=',')
-
+# myTool.entrainerModelRandomForest(parameter)
+# myTool.testForChallenge(parameter,sep=',')
+#
 
 
 # myTool.testRegrEfficiency(parameter)
