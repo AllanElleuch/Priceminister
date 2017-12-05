@@ -431,7 +431,7 @@ class toolKit:
         # self.TFIDF()
     # Do the csv to upload on the challenge website
     def testForChallenge(self,parameter,sep=None):
-        self.addDataframe('eng_data_training_w_score.csv',newFrame=True,sep=sep)
+        self.addDataframe('eng_data_testing_w_score.csv',newFrame=True,sep=sep)
         # self.addDataframe('input_test.csv',newFrame=True)
         self.setFeatures()
                 # self.addColLen()
