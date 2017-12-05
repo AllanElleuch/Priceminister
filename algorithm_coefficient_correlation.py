@@ -118,7 +118,7 @@ parameter=['difficultword_content','len','listpos','listneg']
 print("START TESTING SEQUENCE")
 
 # myTool.gridsearch(parameter)
-# myTool.crossvalidation(parameter)
+myTool.crossvalidation(parameter)
 # Cross validate in 5 k mean
 # mean fit time 178.32037611
 # mean test aur_roc  0.724148436115 TOUT param util
