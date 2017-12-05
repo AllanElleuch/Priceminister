@@ -430,8 +430,8 @@ class toolKit:
         # parameter=['len','cat','review_stars','lenTitle', 'lenPonctuation']
         # self.TFIDF()
     # Do the csv to upload on the challenge website
-    def testForChallenge(self,parameter):
-        self.addDataframe('eng_data_training_w_score.csv',newFrame=True)
+    def testForChallenge(self,parameter,sep=None):
+        self.addDataframe('eng_data_training_w_score.csv',newFrame=True,sep=sep)
         # self.addDataframe('input_test.csv',newFrame=True)
         self.setFeatures()
                 # self.addColLen()
