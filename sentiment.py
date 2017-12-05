@@ -28,8 +28,6 @@ def path(filename):
 # pd = pandas.read_csv(path('input_test.csv'),sep=';')
 pd = pandas.read_csv(path('eng_data_testing.csv'))
 # pd = pandas.read_csv(path('eng_data_training_w_score.csv'))
-print(pd)
-raise
 # pd = pandas.read_csv(path('trained_data.csv'))[0:1]
 
 def review_Pruning(data):
